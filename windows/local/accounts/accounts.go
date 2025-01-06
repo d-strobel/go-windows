@@ -1,5 +1,6 @@
 // Package accounts provides a Go library for handling local Windows accounts.
 // The functions are related to the Powershell local accounts cmdlets provided by Windows.
+//
 // https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/?view=powershell-5.1
 package accounts
 

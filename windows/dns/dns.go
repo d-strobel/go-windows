@@ -1,5 +1,6 @@
 // Package dns provides a Go library for handling Windows DNS Server.
 // The functions are related to the Powershell dns server cmdlets provided by Windows.
+//
 // https://learn.microsoft.com/en-us/powershell/module/dnsserver/?view=windowsserver2022-ps
 package dns
 

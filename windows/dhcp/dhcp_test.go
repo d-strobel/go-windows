@@ -31,8 +31,6 @@ func (suite *DhcpServerUnitTestSuite) TestNewClient() {
 }
 
 func (suite *DhcpServerUnitTestSuite) TestDhcpRun() {
-	suite.T().Parallel()
-
 	suite.Run("should return an unmarshalled scope object", func() {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
@@ -45,9 +43,9 @@ func (suite *DhcpServerUnitTestSuite) TestDhcpRun() {
 		mockConn.EXPECT().
 			RunWithPowershell(ctx, cmd).
 			Return(connection.CmdResult{StdOut: scopeV4Json}, nil)
-		var o scopeObject
-		err := run(ctx, c, cmd, &o)
+		var s ScopeV4
+		err := run(ctx, c, cmd, &s)
 		suite.NoError(err)
-		suite.Equal(expectedScopeObject, o)
+		suite.Equal(expectedScopeV4, s)
 	})
 }

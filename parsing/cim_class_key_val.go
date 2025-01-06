@@ -36,7 +36,7 @@ func (kv *CimClassKeyVal) UnmarshalJSON(b []byte) error {
 	// Regular expression to match key-value pairs with quoted and unquoted values.
 	pairRegex, err := regexp.Compile(`(\S+)\s*=\s*("(.*?)"|'(.*?)'|(\S+))`)
 	if err != nil {
-		return fmt.Errorf("parsing.CimClassKeyVal.UnmarshalJSON: %s", err)
+		return fmt.Errorf("parsing.UnmarshalJSON(CimClassKeyVal): %s", err)
 	}
 
 	// Find all key-value pairs in the input string.

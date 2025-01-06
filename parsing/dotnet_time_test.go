@@ -60,7 +60,7 @@ func (suite *DotnetTimeUnitTestSuite) TestUnmarshalJSON() {
 	suite.Run("should return error with invalid dotnet timestring", func() {
 		winTime := DotnetTime{}
 		err := winTime.UnmarshalJSON([]byte("2023-20-10"))
-		suite.ErrorContains(err, "parsing.DotnetTime.UnmarshalJSON: input string is not a dotnet JSON datetime")
+		suite.ErrorContains(err, "parsing.UnmarshalJSON(DotnetTime): input string is not a dotnet JSON datetime")
 	})
 
 	suite.Run("should unmarshal the whole json object correctly", func() {

@@ -1,5 +1,6 @@
 // Package dhcp provides a Go library for handling Windows DHCP Server resources.
 // The functions are related to the Powershell DhcpServer cmdlets provided by Windows.
+//
 // https://learn.microsoft.com/en-us/powershell/module/dhcpserver/?view=windowsserver2022-ps
 package dhcp
 
@@ -16,36 +17,23 @@ import (
 
 // dhcp is a type constraint for the run function, ensuring it works with specific types.
 type dhcp interface {
-	scopeObject
+	ScopeV4 | ExclusionRangeV4 | FailoverV4
 }
 
-// scopeObject is used to unmarshal the JSON output of a scope object.
-type scopeObject struct {
-	Name             string                  `json:"Name"`
-	Description      string                  `json:"Description"`
-	ScopeId          scopeId                 `json:"ScopeId"`
-	StartRange       startRange              `json:"StartRange"`
-	EndRange         endRange                `json:"EndRange"`
-	SubnetMask       subnetMask              `json:"SubnetMask"`
-	State            string                  `json:"State"`
-	MaxBootpClients  uint32                  `json:"MaxBootpClients"`
-	ActivatePolicies bool                    `json:"ActivatePolicies"`
-	NapEnable        bool                    `json:"NapEnable"`
-	NapProfile       string                  `json:"NapProfile"`
-	Delay            uint16                  `json:"Delay"`
-	LeaseDuration    parsing.CimTimeDuration `json:"LeaseDuration"`
-}
-type scopeId struct {
+// addressString is used to unmarshal the JSON output of an IP address object represented by a string.
+type addressString struct {
 	Address netip.Addr `json:"IPAddressToString"`
 }
-type startRange struct {
-	Address netip.Addr `json:"IPAddressToString"`
+
+// addressBytes is used to unmarshal the JSON output of an IP address object represented by bytes.
+type addressBytes struct {
+	Address parsing.CimIpAddress `json:"Address"`
 }
-type endRange struct {
-	Address netip.Addr `json:"IPAddressToString"`
-}
-type subnetMask struct {
-	Address netip.Addr `json:"IPAddressToString"`
+
+// scopeIdVal represents a scopeId object for the IPv4 failover JSON unmarshal.
+// The output here differs from the typical scopeId output. Therefore we made a new type of it.
+type scopeIdVal struct {
+	Value []addressBytes `json:"value"`
 }
 
 // Client represents a client for handling DHCP server functions.

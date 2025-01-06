@@ -26,24 +26,24 @@ func (t *DotnetTime) UnmarshalJSON(b []byte) error {
 	// Check for valid dotnet timestring
 	re, err := regexp.Compile(`^"\\/Date\(\d+\)\\/"$`)
 	if err != nil {
-		return fmt.Errorf("parsing.DotnetTime.UnmarshalJSON: %s", err)
+		return fmt.Errorf("parsing.UnmarshalJSON(DotnetTime): %s", err)
 	}
 
 	if !re.Match(b) {
-		return fmt.Errorf("parsing.DotnetTime.UnmarshalJSON: input string is not a dotnet JSON datetime: %s", string(b))
+		return fmt.Errorf("parsing.UnmarshalJSON(DotnetTime): input string is not a dotnet JSON datetime: %s", string(b))
 	}
 
 	// Extract timestamp
 	re, err = regexp.Compile(`\d+`)
 	if err != nil {
-		return fmt.Errorf("parsing.DotnetTime.UnmarshalJSON: %s", err)
+		return fmt.Errorf("parsing.UnmarshalJSON(DotnetTime): %s", err)
 	}
 	timestamp := re.Find(b)
 
 	// Convert to seconds
 	i, err := strconv.Atoi(string(timestamp))
 	if err != nil {
-		return fmt.Errorf("parsing.DotnetTime.UnmarshalJSON: %s", err)
+		return fmt.Errorf("parsing.UnmarshalJSON(DotnetTime): %s", err)
 	}
 	seconds := int64(i / 1000)
 

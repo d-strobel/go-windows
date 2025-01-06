@@ -16,19 +16,19 @@ const (
 )
 
 var (
-	expectedScopeObject = scopeObject{
+	expectedScopeV4 = ScopeV4{
 		Name:        "test",
 		Description: "Test description",
-		ScopeId: scopeId{
+		ScopeId: addressString{
 			Address: netip.MustParseAddr("192.168.10.0"),
 		},
-		StartRange: startRange{
+		StartRange: addressString{
 			Address: netip.MustParseAddr("192.168.10.5"),
 		},
-		EndRange: endRange{
+		EndRange: addressString{
 			netip.MustParseAddr("192.168.10.10"),
 		},
-		SubnetMask: subnetMask{
+		SubnetMask: addressString{
 			netip.MustParseAddr("255.255.255.0"),
 		},
 		State:            "Active",
@@ -41,31 +41,7 @@ var (
 			Duration: time.Hour * 24 * 8,
 		},
 	}
-	expectedScopeV4 = ScopeV4{
-		Name:             "test",
-		Description:      "Test description",
-		ScopeId:          netip.MustParseAddr("192.168.10.0"),
-		StartRange:       netip.MustParseAddr("192.168.10.5"),
-		EndRange:         netip.MustParseAddr("192.168.10.10"),
-		SubnetMask:       netip.MustParseAddr("255.255.255.0"),
-		Enabled:          true,
-		MaxBootpClients:  4294967295,
-		ActivatePolicies: true,
-		NapEnable:        false,
-		NapProfile:       "",
-		Delay:            0,
-		LeaseDuration:    time.Hour * 24 * 8,
-	}
 )
-
-// Test the convertOutput method.
-func (suite *DhcpServerUnitTestSuite) TestRecordAConvertOutput() {
-	suite.Run("should return the correct command", func() {
-		s := ScopeV4{}
-		s.convertOutput(expectedScopeObject)
-		suite.Equal(expectedScopeV4, s)
-	})
-}
 
 // Test ScopeV4Read related methods.
 func (suite *DhcpServerUnitTestSuite) TestScopeV4ReadPwshCommand() {
@@ -93,7 +69,7 @@ func (suite *DhcpServerUnitTestSuite) TestScopeV4ReadPwshCommand() {
 func (suite *DhcpServerUnitTestSuite) TestScopeV4Read() {
 	suite.T().Parallel()
 
-	suite.Run("should return the correct ScopeV4", func() {
+	suite.Run("should return the correct ScopeV4 (Read)", func() {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 		mockConn := mockConnection.NewMockConnection(suite.T())
@@ -193,9 +169,7 @@ func (suite *DhcpServerUnitTestSuite) TestScopeV4CreatePwshCommand() {
 }
 
 func (suite *DhcpServerUnitTestSuite) TestScopeV4Create() {
-	suite.T().Parallel()
-
-	suite.Run("should return the correct ScopeV4", func() {
+	suite.Run("should return the correct ScopeV4 (Create)", func() {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 		mockConn := mockConnection.NewMockConnection(suite.T())
@@ -305,9 +279,7 @@ func (suite *DhcpServerUnitTestSuite) TestScopeV4UpdatePwshCommand() {
 }
 
 func (suite *DhcpServerUnitTestSuite) TestScopeV4Update() {
-	suite.T().Parallel()
-
-	suite.Run("should return the correct ScopeV4", func() {
+	suite.Run("should return the correct ScopeV4 (Update)", func() {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 		mockConn := mockConnection.NewMockConnection(suite.T())
@@ -392,8 +364,6 @@ func (suite *DhcpServerUnitTestSuite) TestScopeV4DeletePwshCommand() {
 }
 
 func (suite *DhcpServerUnitTestSuite) TestScopeV4Delete() {
-	suite.T().Parallel()
-
 	suite.Run("should not error", func() {
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
