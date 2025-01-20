@@ -6,7 +6,7 @@ toolchain go1.23.3
 
 require (
 	github.com/masterzen/winrm v0.0.0-20231227165926-e811dad5ac77
-	github.com/vektra/mockery/v2 v2.50.0
+	github.com/vektra/mockery/v2 v2.51.1
 	golang.org/x/crypto v0.31.0
 )
 
